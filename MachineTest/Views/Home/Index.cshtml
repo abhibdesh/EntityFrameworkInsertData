@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron" style="margin-top:20px">
+    <center>
+        <h1>Register</h1><br /><br />
+        <label>First Name :</label>
+        <input type="text" class="input" id="txtFname"><br/>
+        <label>Last Name :</label>
+        <input type="text" class="input" id="txtLname"><br />
+        <label>Password :</label>
+        <input type="password" class="input" id="txtPassword"><br />
+        <a href="Login"> Go To Login</a><br/>
+        <input type="button" class="btn btn-primary btn-lg" value="Register" onclick="validate()">
+    </center>
+</div>
+
+
+<script>
+
+    function validate() {
+        var fname = $("#txtFname").val()
+        var lname = $("#txtLname").val()
+            
+        var pass = $("#txtPassword").val()
+        var result = true
+
+        if (fname == "") {
+            alert("Please enter first name")
+            result = false
+            return false;
+        }
+        if (lname == "") {
+            alert("Please enter last name")
+            result = false
+            return false;
+        } if (pass == "") {
+            alert("Please enter password")
+            result = false
+            return false;
+        }
+        if (result) {
+            $.ajax({
+                url: "../Home/AddUserToDB",
+                type: "POST",
+                data: {
+                    Fname: fname,
+                    Lname: lname,
+                    password: pass
+                },
+                success: function (response) {
+                    location.href("Login")
+                }
+            })
+        }
+
+    }
+
+</script>

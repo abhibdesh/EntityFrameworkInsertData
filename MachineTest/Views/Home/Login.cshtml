@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="jumbotron" style="margin-top:20px">
+    <center>
+        <h1>Login</h1><br /><br />
+        <label>User Name :</label>
+        <input type="text" class="input" id="txtFname"><br />
+        <label>Password :</label>
+        <input type="password" class="input" id="txtPassword"><br />
+        <a href="Index">Register</a><br/>
+        <input type="button" class="btn btn-primary btn-lg" value="Login" onclick="validate()">
+    </center>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+
+    function validate() {
+        var fname = $("#txtFname").val()
+        var pass = $("#txtPassword").val()
+        var result = true
+
+        if (fname == "") {
+            alert("Please enter first name")
+            result = false
+            return false;
+        } if (pass == "") {
+            alert("Please enter password")
+            result = false
+            return false;
+        }
+        if (result) {
+            $.ajax({
+                url: "../Home/LoginUser",
+                type: "POST",
+                data: {
+                    username: fname,
+                    password: pass
+                },
+                success: function (response) {
+                    if (response[0][1] == "success") {
+                        location.href = "DataRec";
+                        sessionStorage.setItem("UserData", JSON.stringify(response[0][0]));
+                    }
+                    else {
+                        alert(response[0][1])
+                    }
+                    
+                }
+            })
+        }
+
+    }
+
+</script>

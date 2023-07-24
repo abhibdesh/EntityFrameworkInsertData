@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "DataRec";
+}
+
+<div class="jumbotron" style="margin-top:20px">
+    <center>
+        <h1>Enter Data</h1><br /><br />
+        <label>Code :</label>
+        <input type="text" class="readOnly"  id="txtCode" readonly><br />
+        <label>First Name :</label>
+        <input type="text" class="readOnly" id="txtFname" readonly><br />
+        <label>Last Name :</label>
+        <input type="text" class="readOnly" id="txtLname" readonly><br />
+        <label>Type :</label>
+        <select id="type">
+            <option value=10>Regular</option>
+            <option value=20>OT</option>
+        </select><br />
+        <label>Rate :</label>
+        <input type="text" class="input" id="txtrate"><br />
+        <label>Hours :</label>
+        <input type="text" class="input" id="txthrs" onkeyup="totalCalc()"><br />
+        <label>Total :</label>
+        <input type="text" class="input" id="txtttl"><br />
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Save
+        </button>
+    </center>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to save the changes?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="SaveChanges()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script>
+
+     $(document).ready(function() {
+         var data = JSON.parse(sessionStorage.getItem("UserData"))
+         $("#txtCode").val(data[0].FinalCode)
+         $("#txtFname").val(data[0].FirstName)
+         $("#txtLname").val(data[0].LastName)
+
+         $("#type").on("change", function () {
+             $("#txtrate").val($("#type").val())
+         })
+     });
+
+        function totalCalc() {
+            $("#txtttl").val(Number($("#txtrate").val()) * Number($("#txthrs").val()))
+    }
+    function SaveChanges() {
+        $.ajax({
+            url: "../Home/AddDataRec",
+            data: {
+                code: $("#txtCode").val(),
+                type: $("#type").val(),
+                rate: $("#txtrate").val(),
+                hrs: $("#txthrs").val(),
+                total:$("#txtttl").val()
+            },
+            type: "POST"
+        })
+    }
+    </script>

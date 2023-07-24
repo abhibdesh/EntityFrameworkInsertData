@@ -1,0 +1,27 @@
+﻿body {
+}
+
+.input{
+    margin-bottom : 10px;
+    padding : 10px;
+    border-radius:20px;
+    height: 40px;
+    width:300px;
+}
+
+.readOnly {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 20px;
+    height: 40px;
+    width: 300px;
+    background-color: lightgray
+}
+
+#type {
+    width: 300px;
+    padding: 10px;
+    height: 40px;
+    margin-bottom: 10px;
+    border-radius: 20px
+}
